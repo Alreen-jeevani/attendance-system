@@ -1,0 +1,75 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  background: #f4f6f9;
+}
+
+.hidden { display: none; }
+
+/* Splash Screen */
+#splash {
+  height: 100vh;
+  background: url("https://images.unsplash.com/photo-1523240795612-9a054b0db644") center/cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.overlay {
+  background: rgba(0,0,0,0.6);
+  padding: 30px;
+  text-align: center;
+  color: white;
+  border-radius: 10px;
+}
+
+/* App */
+#app {
+  padding: 15px;
+}
+
+input, button {
+  padding: 10px;
+  margin: 5px 0;
+  width: 100%;
+}
+
+button {
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+}
+
+/* Table */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 15px;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: center;
+}
+
+.status-btn {
+  padding: 6px 10px;
+  border-radius: 5px;
+}
+
+.present { background: #28a745; color: white; }
+.absent { background: #dc3545; color: white; }
+
+.dots {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* Desktop */
+@media (min-width: 768px) {
+  table {
+    font-size: 16px;
+  }
+}
