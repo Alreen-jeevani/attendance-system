@@ -1,4 +1,8 @@
-
+const teacherAuthorization = {
+  "Dr. Rao": ["CSE-A", "CSE-B"],
+  "Ms. Anjali": ["ECE-A"],
+  "Mr. Suresh": ["CSE-C"]
+};
 // Splash screen
 setTimeout(() => {
   document.getElementById("splash").style.display = "none";
@@ -55,6 +59,13 @@ function openClass() {
     return;
   }
 
+  // SECURITY CHECK
+  const allowedClasses = teacherAuthorization[currentTeacher];
+  if (!allowedClasses || !allowedClasses.includes(currentClass)) {
+    alert("You are not authorized to mark attendance for this class ❌");
+    return;
+  }
+
   document.getElementById("classSelection").classList.add("hidden");
   document.getElementById("attendanceSection").classList.remove("hidden");
 
@@ -63,7 +74,6 @@ function openClass() {
 
   loadStudents();
 }
-
 function loadStudents() {
   const tbody = document.querySelector("#attendanceTable tbody");
   tbody.innerHTML = "";
@@ -131,4 +141,9 @@ function calculateMonthly(name) {
 function backToClass() {
   document.getElementById("studentProfile").classList.add("hidden");
   document.getElementById("attendanceSection").classList.remove("hidden");
+}
+function disableEditing() {
+  document
+    .querySelectorAll(".status-btn, .buttons button")
+    .forEach(btn => btn.disabled = true);
 }
