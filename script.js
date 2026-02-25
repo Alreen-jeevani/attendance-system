@@ -1,17 +1,4 @@
-const params = new URLSearchParams(window.location.search);
-const accessKey = params.get("key");
 
-if (!accessKey || !authorizedTeachers[accessKey]) {
-  document.body.innerHTML = `
-    <h2 style="text-align:center;color:red;">
-      Unauthorized Access 🚫
-    </h2>
-    <p style="text-align:center;">
-      Please use the official attendance link.
-    </p>
-  `;
-  throw new Error("Unauthorized");
-}
 // Splash screen
 setTimeout(() => {
   document.getElementById("splash").style.display = "none";
