@@ -1,49 +1,103 @@
-// Splash Screen
+const params = new URLSearchParams(window.location.search);
+const accessKey = params.get("key");
+
+if (!accessKey || !authorizedTeachers[accessKey]) {
+  document.body.innerHTML = `
+    <h2 style="text-align:center;color:red;">
+      Unauthorized Access 🚫
+    </h2>
+    <p style="text-align:center;">
+      Please use the official attendance link.
+    </p>
+  `;
+  throw new Error("Unauthorized");
+}
+// Splash screen
 setTimeout(() => {
   document.getElementById("splash").style.display = "none";
   document.getElementById("app").classList.remove("hidden");
 }, 3500);
 
-// Sample students
-const students = ["Ayaan", "Sara", "Rahul", "Meena", "Arjun"];
+// Teacher list
+const teachers = [
+  "Dr. Rao",
+  "Ms. Anjali",
+  "Mr. Suresh"
+];
 
+// Class-wise student data
+const classData = {
+  "CSE-A": [
+    { name: "Ayaan", phone: "9876543210" },
+    { name: "Sara", phone: "9123456780" },
+    { name: "Rahul", phone: "9988776655" }
+  ],
+  "CSE-B": [
+    { name: "Meena", phone: "9012345678" },
+    { name: "Arjun", phone: "9345678123" }
+  ],
+  "ECE-A": [
+    { name: "Kiran", phone: "8899001122" },
+    { name: "Pooja", phone: "7766554433" }
+  ]
+};
+
+let currentTeacher = "";
 let currentClass = "";
-let teacher = "";
+
+// Populate dropdowns
+window.onload = () => {
+  const teacherSelect = document.getElementById("teacherName");
+  const classSelect = document.getElementById("className");
+
+  teachers.forEach(t => {
+    teacherSelect.innerHTML += `<option value="${t}">${t}</option>`;
+  });
+
+  Object.keys(classData).forEach(cls => {
+    classSelect.innerHTML += `<option value="${cls}">${cls}</option>`;
+  });
+};
 
 function openClass() {
-  teacher = document.getElementById("teacherName").value;
+  currentTeacher = document.getElementById("teacherName").value;
   currentClass = document.getElementById("className").value;
 
-  if (!teacher || !currentClass) {
-    alert("Enter Teacher and Class");
+  if (!currentTeacher || !currentClass) {
+    alert("Please select Teacher and Class");
     return;
   }
 
   document.getElementById("classSelection").classList.add("hidden");
   document.getElementById("attendanceSection").classList.remove("hidden");
-  document.getElementById("classTitle").innerText =
-    `${currentClass} | Teacher: ${teacher}`;
 
-  loadAttendance();
+  document.getElementById("classTitle").innerText =
+    `${currentClass} | Teacher: ${currentTeacher}`;
+
+  loadStudents();
 }
 
-function loadAttendance() {
+function loadStudents() {
   const tbody = document.querySelector("#attendanceTable tbody");
   tbody.innerHTML = "";
 
-  students.forEach(name => {
+  classData[currentClass].forEach(student => {
     const tr = document.createElement("tr");
 
     tr.innerHTML = `
       <td>
-        <a href="#student-${name}" onclick="openProfile('${name}')">${name}</a>
+        <a href="#student-${student.name}-${student.phone}"
+           onclick="openProfile('${student.name}','${student.phone}')">
+          ${student.name}
+        </a>
       </td>
       <td>
-        <button class="status-btn present" onclick="toggleStatus(this)">Present</button>
+        <button class="status-btn present"
+          onclick="toggleStatus(this)">Present</button>
       </td>
       <td>
         <span class="dots" onclick="togglePast(this)">...</span>
-        <div class="hidden">Previous records here</div>
+        <div class="hidden">Previous attendance</div>
       </td>
     `;
     tbody.appendChild(tr);
@@ -64,32 +118,27 @@ function togglePast(el) {
   el.nextElementSibling.classList.toggle("hidden");
 }
 
-function saveAttendance() {
-  alert("Attendance saved successfully ✅");
-}
-
-function showTodayTotal() {
-  const presentCount = document.querySelectorAll(".present").length;
-  alert(`Total Present Today: ${presentCount}`);
-}
-
-function openProfile(student) {
+function openProfile(name, phone) {
   document.getElementById("attendanceSection").classList.add("hidden");
   const profile = document.getElementById("studentProfile");
   profile.classList.remove("hidden");
 
   profile.innerHTML = `
-    <h2>${student} Profile</h2>
-    <p>Class: ${currentClass}</p>
-    <p>Teacher: ${teacher}</p>
-    <button onclick="calculateMonthly('${student}')">Monthly Attendance</button>
+    <h2>${name}</h2>
+    <p><strong>Class:</strong> ${currentClass}</p>
+    <p><strong>Teacher:</strong> ${currentTeacher}</p>
+    <p><strong>Phone:</strong> ${phone}</p>
+
+    <button onclick="calculateMonthly('${name}')">
+      Monthly Attendance
+    </button>
     <br><br>
     <button onclick="backToClass()">⬅ Back</button>
   `;
 }
 
-function calculateMonthly(student) {
-  alert(`${student} attended 85% this month 📊`);
+function calculateMonthly(name) {
+  alert(`${name} has 86% attendance this month 📊`);
 }
 
 function backToClass() {
