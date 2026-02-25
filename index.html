@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Digital Attendance</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Splash Screen -->
+<div id="splash">
+  <div class="overlay">
+    <h1>Welcome Teacher 👩‍🏫👨‍🏫</h1>
+    <p>Digital Attendance System</p>
+  </div>
+</div>
+
+<!-- Main App -->
+<div id="app" class="hidden">
+
+  <!-- Class Selection -->
+  <section id="classSelection">
+    <h2>Select Class</h2>
+    <input type="text" id="teacherName" placeholder="Enter Teacher Name">
+    <input type="text" id="className" placeholder="Enter Class (e.g., CSE-A)">
+    <button onclick="openClass()">Open Class</button>
+  </section>
+
+  <!-- Attendance Section -->
+  <section id="attendanceSection" class="hidden">
+    <div class="header">
+      <h2 id="classTitle"></h2>
+      <input type="date" id="attendanceDate">
+    </div>
+
+    <table id="attendanceTable">
+      <thead>
+        <tr>
+          <th>Student</th>
+          <th>Status</th>
+          <th>Past</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+
+    <div class="buttons">
+      <button onclick="showTodayTotal()">Today Total</button>
+      <button onclick="saveAttendance()">Save Attendance</button>
+    </div>
+  </section>
+
+  <!-- Student Profile -->
+  <section id="studentProfile" class="hidden"></section>
+
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
